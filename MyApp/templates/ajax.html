@@ -1,0 +1,68 @@
+<script>
+    $("#datasubmit").click(function(){
+        console.log("Button clicked");
+
+        let name=$("#name_id").val()
+        let age=$("#age_id").val()
+        let contact=$("#contact_id").val()
+
+        if(name==''){
+            alert("Enter Name");
+        }else if(age==''){
+            alert("Enter Age");
+        }else if(contact==''){
+            alert("Enter Contact")
+        }else{
+        let csrf = "{{ csrf_token }}"
+
+        //console.log(name);
+        //console.log(age);
+        //console.log(contact);
+        myData={Name:name, Age:age, Contact:contact, csrfmiddlewaretoken:csrf}
+        console.log(myData)
+    }
+    $.ajax({
+        url: "{% url 'getdata' %}",
+        method: "POST",
+        data:myData,
+        success:function(data){
+            console.log(data)
+            if(data.status=="Save"){
+                $("form")[0].reset();
+                alert("DATA CREATED")
+            }
+        }
+
+    });
+
+
+    });
+    
+
+
+
+//DELETE DATA////////////////////////////////////////
+
+
+
+ $(".Delete_data_id").click(function(){
+     console.log("Delete Button clicked");
+     let id=$(this).attr("data-sid")
+     let csrf = "{{ csrf_token }}"
+     data={ID: id, csrfmiddlewaretoken:csrf}
+     console.log(id)
+     $.ajax({
+         url: "{% url 'delete_data' %}",
+         method:"POST",
+         data:data,
+         success:function(JSON){
+             console.log(JSON)
+             alert("DATA DELETED")
+         }
+     })
+ })
+
+
+</script>
+
+Rd^C&y52ypE9
